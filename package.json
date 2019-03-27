@@ -1,0 +1,11 @@
+{
+    "name": "com.Nanory.NanoECS",
+    "displayName": "Nano ECS",
+    "version": "0.5.0",
+    "unity": "2018.1",
+    "description": "c# Unity ECS implementation. \n\nTo find out more, click the \"View documentation\" button.",
+    "keywords": ["ECS", "Generator", "framerork"],
+    "category": "Frameworks",
+    "dependencies": {
+    }
+}
