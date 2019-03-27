@@ -1,0 +1,31 @@
+public enum *ComponentName*Fields : ushort
+{
+	*ComponentEnumValues*
+}	
+	
+public partial class *Context*Group : Group<*Context*Entity>
+{
+    public *Context*Collector On*ComponentName*Change(*ComponentName*Fields fieldId)
+    {
+	    var fieldsCount = 5; // temp
+        var id = (int)fieldId;
+        CollectorNode<*Context*Entity> collectorNode;
+        if (!CollectorNodes.ContainsKey(*Context*ComponentsMap.*ComponentName*))
+        {
+            collectorNode = new CollectorNode<*Context*Entity>(new *Context*Collector[fieldsCount]);
+            for (int i = 0; i < fieldsCount; i++)
+            {
+                collectorNode.collectors[i] = new *Context*Collector();
+            }
+            CollectorNodes.Add(*Context*ComponentsMap.*ComponentName*, collectorNode);
+			HasCollectorNode[*Context*ComponentsMap.*ComponentName*] = true;
+        } else
+        {
+            collectorNode = CollectorNodes[*Context*ComponentsMap.*ComponentName*];
+        }
+
+		collectorNode.hasCollector[id] = true;
+
+        return (*Context*Collector)collectorNode.collectors[id];
+    }
+}

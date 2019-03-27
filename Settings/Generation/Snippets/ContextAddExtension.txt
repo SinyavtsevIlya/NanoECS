@@ -1,0 +1,7 @@
+	public *Context*Context Add*ComponentName* (*ComponentFields*)
+	{
+		var c = new *ComponentName*Component();
+		*ComponentName* = c;
+		*AddingComponentsSequence*
+		return this;
+	}

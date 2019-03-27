@@ -1,0 +1,14 @@
+public partial class *Context*Entity 
+{
+	public *ComponentName*Component *ComponentName*
+	{
+        get
+        {
+            if (!Has(*Context*ComponentsMap.*ComponentName*))
+            {
+				throw new System.Exception("Entity doesn't have an existing component");
+            }
+            return Get<*ComponentName*Component>(*Context*ComponentsMap.*ComponentName*);
+        }
+	}
+}

@@ -1,0 +1,36 @@
+public partial class *Context*WithBuilder : WithBuilder<*Context*Entity> 
+{
+    public *Context*Group *ComponentName*
+    {
+        get
+        {
+            group.WithTypes.Add(*Context*ComponentsMap.*ComponentName*);
+            return group as *Context*Group;
+        }
+    }
+}
+
+public partial class *Context*WithoutBuilder : WithoutBuilder<*Context*Entity>
+{
+
+    public *Context*Group *ComponentName*
+    {
+        get
+        {
+            group.WithoutTypes.Add(*Context*ComponentsMap.*ComponentName*);
+            return group as *Context*Group;
+        }
+    }
+}
+
+public partial class *Context*AnyofBuilder : AnyofBuilder<*Context*Entity>
+{
+    public *Context*Group *ComponentName*
+    {
+        get
+        {
+            group.AnyofTypes.Add(*Context*ComponentsMap.*ComponentName*);
+            return group as *Context*Group;
+        }
+    }
+}

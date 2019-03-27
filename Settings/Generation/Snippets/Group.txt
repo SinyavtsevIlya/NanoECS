@@ -1,0 +1,79 @@
+public partial class *Context*WithBuilder : WithBuilder<*Context*Entity>
+{
+    public *Context*WithBuilder (Group<*Context*Entity> group) : base(group)
+    {
+    }
+}
+
+public partial class *Context*WithoutBuilder : WithoutBuilder<*Context*Entity>
+{
+    public *Context*WithoutBuilder (Group<*Context*Entity> group) : base(group)
+    {
+    }
+}
+
+public partial class *Context*AnyofBuilder : AnyofBuilder<*Context*Entity>
+{
+    public *Context*AnyofBuilder (Group<*Context*Entity> group) : base(group)
+    {
+    }
+}
+
+public partial class *Context*Group : Group<*Context*Entity>
+{
+	public *Context*Group()
+	{
+	    withBuilder = new *Context*WithBuilder(this);
+        withoutBuilder = new *Context*WithoutBuilder(this);
+        anyofBuilder = new *Context*AnyofBuilder(this);
+	}
+	
+	public *Context*Collector OnAdd
+    {
+        get
+        {
+            var onAdd = new *Context*Collector();
+            InternalOnAdd(onAdd);
+            return onAdd;
+        }
+    }
+	
+	public *Context*Collector OnRemove
+    {
+        get
+        {
+            var onRemove = new *Context*Collector();
+            InternalOnRemove(onRemove);
+            return onRemove;
+        }
+    }
+	
+	public *Context*Collector OnDestroy
+    {
+        get
+        {
+            var onDestroy = new *Context*Collector();
+            InternalOnDestroy(onDestroy);
+            return onDestroy;
+        }
+    }
+	
+	public *Context*WithBuilder With
+    {
+        get { return withBuilder as *Context*WithBuilder; }
+    }
+
+    public *Context*WithoutBuilder Without
+    {
+        get { return withoutBuilder as *Context*WithoutBuilder; }
+    }
+
+    public *Context*AnyofBuilder AnyOf
+    {
+        get { return anyofBuilder as *Context*AnyofBuilder; }
+    }
+}
+
+public partial class *Context*Collector : Collector<*Context*Entity>
+{
+}

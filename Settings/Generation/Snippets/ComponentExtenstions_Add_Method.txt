@@ -1,0 +1,42 @@
+public partial class *Context*Entity 
+{
+	public *Context*Entity Add*ComponentName* (*ComponentFields*)
+	{
+		var c = Add<*ComponentName*Component>(*Context*ComponentsMap.*ComponentName*);
+		*AddingComponentsSequence*
+		return this;
+	}
+	
+	public *Context*Entity SafelyAdd*ComponentName* (*ComponentFields*)
+	{
+		*ComponentName*Component c;
+        if (Has*ComponentName*)
+        {
+            c = *ComponentName*;
+        } else
+        {
+            c = Add<*ComponentName*Component>(*Context*ComponentsMap.*ComponentName*);
+        }
+        *AddingComponentsSequence*
+        return this;
+	}
+	
+	public *Context*Entity Remove*ComponentName* ()
+	{
+		*ClearingActionsSequence*
+		
+		if (IsReserved) throw new System.Exception("Unable to remove component from reserved entity");
+		
+		RemoveComponentOfIndex(*Context*ComponentsMap.*ComponentName*);
+		return this;
+	}
+	
+	public bool Has*ComponentName* 
+	{
+			get 
+			{
+				return Has(*Context*ComponentsMap.*ComponentName*);
+			}
+	}
+	
+}

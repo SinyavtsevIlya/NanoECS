@@ -1,0 +1,29 @@
+public partial class *ComponentName*Component : ComponentEcs 
+{
+    @ReactiveProperty@
+	*FieldType* *FieldCamelCase*;
+	
+	public System.Action<*FieldType*, *FieldType*>On*FieldPascalCase*Change;
+
+	public *FieldType* *FieldPascalCase* 
+	{
+		get {  return *FieldCamelCase*; }
+		set 
+		{
+			if (*FieldCamelCase_Set* == value) return;
+			
+			var cached = this.*FieldCamelCase*;
+			*FieldCamelCase_Set* = value;
+			if (_InternalOnValueChange != null) 
+			{	
+				_InternalOnValueChange(*FieldId*);
+			}
+			
+			if (On*FieldPascalCase*Change != null) 
+			{
+				On*FieldPascalCase*Change(cached, value);
+			}
+		}
+	}
+	@ReactiveProperty@
+}

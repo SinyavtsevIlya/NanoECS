@@ -1,0 +1,14 @@
+public static class *ComponentName*ComponentsMap
+{
+	@ComponentIndexesSequence@
+
+	public static readonly string[] Names =
+	{
+		@ComponentNamesSequence@
+	};
+	
+	public static readonly System.Type[] Types = 
+	{
+		@ComponentTypesSequence@
+	};
+}

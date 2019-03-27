@@ -1,0 +1,20 @@
+public partial class *Context*Entity 
+{
+	public bool Is*ComponentName* 
+	{
+	get
+        {
+            return Has(*Context*ComponentsMap.*ComponentName*);
+        }
+        set
+        {
+            if (value)
+            {
+                Add<*ComponentName*Component>(*Context*ComponentsMap.*ComponentName*);
+            } else
+            {
+                RemoveComponentOfIndex(*Context*ComponentsMap.*ComponentName*);
+            }
+        }
+	}
+}

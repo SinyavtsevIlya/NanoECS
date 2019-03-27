@@ -1,0 +1,12 @@
+public partial class Contexts 
+{
+	public *Context*Context *Context* = new *Context*Context(*Context*ComponentsMap.Types);
+}
+
+public static class *Context*ContextExtensions 
+{
+	public static *Context*Entity To*Context*Entity(this int id, Contexts contexts) 
+	{
+		return contexts.*Context*.GetEntity(id);
+	}
+}

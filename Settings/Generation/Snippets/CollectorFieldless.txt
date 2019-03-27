@@ -1,0 +1,11 @@
+public partial class *Context*Group : Group<*Context*Entity>
+{
+    public *Context*Collector On*ComponentName*Change()
+    {
+        var collectorNode = new CollectorNode<*Context*Entity>(new *Context*Collector[1] { new *Context*Collector()});
+        collectorNode.hasCollector[0] = true;
+        CollectorNodes.Add(*Context*ComponentsMap.*ComponentName*, collectorNode);
+		HasCollectorNode[*Context*ComponentsMap.*ComponentName*] = true;
+        return (*Context*Collector)collectorNode.collectors[0];
+    }
+}

@@ -1,0 +1,14 @@
+	*FieldType* *FieldCamelCase*;
+
+	public void Add *FieldPascalCase* 
+	{
+		get {  return *FieldCamelCase*; }
+		set 
+		{
+			*FieldCamelCase_Set* = value;
+			if (OnValueChange != null) 
+			{	
+				OnValueChange(*FieldId*);
+			}
+		}
+	}

@@ -1,0 +1,13 @@
+public partial class *Context*Context : Context<*Context*Entity>
+{
+	@ContextUniqueComponentsSequence@
+	
+	public *Context*Group GetGroup()
+    {
+		return (*Context*Group)CreateGroupInternal(new *Context*Group());
+    }
+	
+	public *Context*Context(System.Type[] componentTypes) : base(componentTypes)
+    {
+    }
+}

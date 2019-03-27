@@ -1,0 +1,6 @@
+namespace NanoEcs 
+{
+	public class *Context* : System.Attribute 
+	{
+	}
+}
