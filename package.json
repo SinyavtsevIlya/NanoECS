@@ -6,11 +6,5 @@
     "description": "c# Unity ECS implementation. \n\nTo find out more, click the \"View documentation\" button.",
     "keywords": ["ECS", "Generator", "framerork"],
     "category": "Frameworks",
-    "dependencies": {
-    },
-	"repository": {
-        "type": "git",
-        "url": "https://github.com/SinyavtsevIlya/NanoECS.git"
-    }
-	
+    "dependencies": {}
 }
