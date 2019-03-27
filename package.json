@@ -7,5 +7,10 @@
     "keywords": ["ECS", "Generator", "framerork"],
     "category": "Frameworks",
     "dependencies": {
+    },
+	"repository": {
+        "type": "git",
+        "url": "https://github.com/SinyavtsevIlya/NanoECS.git"
     }
+	
 }
