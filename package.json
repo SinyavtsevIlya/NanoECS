@@ -3,8 +3,8 @@
     "displayName": "Nano ECS",
     "version": "0.5.0",
     "unity": "2018.1",
-    "description": "c# Unity ECS implementation. \n\nTo find out more, click the \"View documentation\" button.",
-    "keywords": ["ECS", "Generator", "framerork"],
+    "description": "c# Unity ECS implementation. Main features: Code generation, Reactive components, Visual debugging",
+    "keywords": ["ECS", "Generator", "framework"],
     "category": "Frameworks",
     "dependencies": {}
 }
