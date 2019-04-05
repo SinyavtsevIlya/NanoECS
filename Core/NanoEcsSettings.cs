@@ -16,9 +16,12 @@ public static class UnityMenuStructure
     public const string SettingsItem = RootFolder + "Settings";
 }
 
-[CreateAssetMenu]
+[CreateAssetMenu(fileName = SettingsFileName, order = 51)]
 public class NanoEcsSettings : ScriptableObject
 {
+    public const string SettingsFileName = "NanoECS Settings";
+    public const string AssetRelativePath = "Assets/Settings/" + SettingsFileName;
+
     public bool VisualDebugEnabled
     {
         get
@@ -66,6 +69,9 @@ public class NanoEcsSettings : ScriptableObject
     public bool visualDebugEnabled;
 
     public List<ContextSettings> Contexts;
+
+    public string GeneratedFolderPath;
+    public string SourceFolderPath;
 }
 
 [System.Serializable]

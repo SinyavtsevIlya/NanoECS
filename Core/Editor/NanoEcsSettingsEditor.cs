@@ -62,7 +62,11 @@ public class NanoEcsSettingsEditor : Editor
 
         GUILayout.EndVertical();
         GUILayout.Space(25);
-        //EditorGUILayout.PropertyField(serializedObject.FindProperty("VisualDebugEnabled"));
+
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("GeneratedFolderPath"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("SourceFolderPath"));
+
+        GUILayout.Space(25);
 
         list.DoLayoutList();
 

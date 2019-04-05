@@ -7,12 +7,12 @@ public class SettingsPreview
     [UnityEditor.MenuItem(UnityMenuStructure.SettingsItem)]
     public static void DebugSettingns()
     {
-        selectFile("Settings");
+        selectFile();
     }
 
-    static void selectFile(string fileName)
+    static void selectFile()
     {
-        Selection.activeObject = AssetDatabase.LoadAssetAtPath("Assets/Plugins/Nanory/NanoECS/Settings/" + fileName + ".asset", typeof(Object));
+        Selection.activeObject = AssetDatabase.LoadAssetAtPath(NanoEcsSettings.AssetRelativePath + ".asset", typeof(Object));
     }
 }
 #endif

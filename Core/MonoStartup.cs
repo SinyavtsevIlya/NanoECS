@@ -11,17 +11,11 @@ public abstract class MonoStartup : MonoBehaviour
     public void Initialize()
     {
         systems = Setup();
-        
-        foreach (var system in systems.Values)
-        {
-            //
-        }
+
+        // no initialization requared for now
     }
 
     public abstract Systems Setup();
-
-    
-
 
 }
 public class Systems : Iinitializable, IExecutable, ILateExecute, IStop, IPause
