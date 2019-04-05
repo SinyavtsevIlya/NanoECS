@@ -1,6 +1,6 @@
 {
     "name": "com.nanory.nanoecs",
-    "displayName": "Nano ECS",
+    "displayName": "NanoECS",
     "version": "0.5.0",
     "unity": "2018.1",
     "description": "c# Unity ECS implementation. Main features: Code generation, Reactive components, Visual debugging",
