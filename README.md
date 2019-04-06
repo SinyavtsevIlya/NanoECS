@@ -9,12 +9,7 @@
 - Code Generation (provides a really clean API, reducing boiler-plate code)
 - Reactive Components (gives you the ability to change component values in a pure manner, still providing reactive groups-triggering)  
 - Visual Debugging (you can create/change contexts, entities and components inside the editor (Optional))
-
-## How to Install
-- Create a new Unity Project
-- Open the manifest.json file in the Packages folder inside of the Project
-- Add ```"com.nanory.nanoecs": "https://github.com/SinyavtsevIlya/NanoECS.git",``` 
-- Go to *Packages -> NanoECS -> Install* and import ```ProjectStructure.unitypackage```
+- Unique components (singleton-like accessing components via contexts) 
 
 ## First look
 
@@ -59,10 +54,6 @@ example 2:
         }
 ```
 
-## Inspiration
-
-The framework is inspired a lot by such projects as Entitas, Actors, LeoECS.
-
 ## Visual Debugging
 
 <p align="left">
@@ -81,7 +72,7 @@ The framework is inspired a lot by such projects as Entitas, Actors, LeoECS.
     <img src="https://i.imgur.com/x4w7o0q.png" alt="entity editor">
 </p>
 
-- Generation works without reflection, so you can generate <b> even if you project doesn't compile at all </b> 
+- Generation works without reflection, so you can generate <b> even if your project doesn't compile at all </b> 
 - The generator is a standalone application, decoupled from Unity. So you don't need to leave your IDE
 - One key press to generate everything in milliseconds
 - You can edit the generation by changing the snippets. Soon it will be possible to add custom snippets, and write your own generation
@@ -97,8 +88,7 @@ class Score
 }
 ```
 
-The generator parses this class, and creates a completely 
- new component, in which instead of the fields there are reactive properties:
+The generator parses this class, and creates a completely new component, with reactive properties instead of fields:
 
 ```csharp
 public partial class ScoreComponent : ComponentEcs 
@@ -131,3 +121,29 @@ public partial class ScoreComponent : ComponentEcs
 ```
 
 When changing the ```value``` property, related entity is added to all ```.OnScoreChange``` collectors.
+
+## Inspiration
+
+The framework is inspired a lot by such projects as [Entitas][Entitas-link], [Actors][Actors-link], [LeoECS][LeoECS-link].
+I like Entitas so much, but I found it's really tricky to write "Replace" and filter-methods every-time. So the goal was to reduce boiler-plate and keep performance as well.
+
+## Documentation
+
+[Wiki][Wiki-link]
+
+## How to install
+- Create a new Unity Project
+- Open the manifest.json file in the Packages folder inside of the Project
+- Add ```"com.nanory.nanoecs": "https://github.com/SinyavtsevIlya/NanoECS.git",``` next to ```"dependencies": {```
+- Go to *Packages -> NanoECS -> Install* and import ```ProjectStructure.unitypackage```
+
+## Still in progress
+
+- It's a very early version of framework. So bear with me :)
+- Performance is tested in the mobile project (middle tier) with a lot of AI, render stuff etc. and it shows ~60 fps. I'm going to optimize it further, but it's good enough for most purposes.
+- If you find a bug, let me know: discord IL#6472, sinyavtsevilya@gmail.com
+
+[Wiki-link]: https://github.com/SinyavtsevIlya/NanoECS/wiki
+[Entitas-link]: https://github.com/sschmid/Entitas-CSharp/blob/master/README.md "Entitas"
+[Actors-link]: https://github.com/dimmpixeye/ecs.unity "Actors"
+[LeoECS-link]: https://github.com/Leopotam/ecs "LeoECS"
