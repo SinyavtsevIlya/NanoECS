@@ -72,6 +72,8 @@ public class NanoEcsSettings : ScriptableObject
 
     public string GeneratedFolderPath;
     public string SourceFolderPath;
+
+    public bool TriggerGenerationOnSourceChange;
 }
 
 [System.Serializable]
@@ -80,5 +82,6 @@ public class ContextSettings
     public string Name;
     public int MinEntitiesPoolSize;
 }
+
 
 #endif

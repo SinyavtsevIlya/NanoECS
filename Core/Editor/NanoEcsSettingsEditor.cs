@@ -65,6 +65,7 @@ public class NanoEcsSettingsEditor : Editor
 
         EditorGUILayout.PropertyField(serializedObject.FindProperty("GeneratedFolderPath"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("SourceFolderPath"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("TriggerGenerationOnSourceChange"));
 
         GUILayout.Space(25);
 
