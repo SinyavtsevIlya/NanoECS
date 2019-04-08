@@ -69,7 +69,7 @@ example 2:
 ## Generation
 
 <p align="left">
-    <img src="https://i.imgur.com/x4w7o0q.png" alt="entity editor">
+    <img src="https://i.imgur.com/5AZlEjC.png" alt="entity editor">
 </p>
 
 - Generation works without reflection, so you can generate <b> even if your project doesn't compile at all </b> 
