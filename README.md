@@ -13,7 +13,18 @@
 
 ## First look
 
-### Group request
+### Entity creation
+```csharp
+        var player = contexts.Game.CreateEntity()	
+            .AddPlayerView(view)
+            .AddCollider(collider)
+            .AddDefeatsCounter(0)
+            .AddSkin("Butterfly");
+```
+
+### Group
+
+creation:
 ```csharp
         GameGroup group = contexts.Game.GetGroup()
             .With.Position
@@ -21,17 +32,35 @@
             .Without.Movable;
 ```
 
-### Entity creation
+usage:
 ```csharp
-        var player = contexts.Game.CreateEntity()
-            .AddPlayerView(view);
-            .AddUnityTransform(viewGO.transform);
-            .AddCollider(collider);
-            .AddDirectionView(directionView);
-            .AddFrags(0);
-            .AddDefeatsCounter(0);
-            .AddSkin(string.Empty);
+	foreach (e in group) 
+	{	
+		Print(e.Position.Value);
+		Print(e.View.Value);
+		Print(e.View.IsMovable);
+	}
 ```
+
+### Collector
+
+creation:
+```csharp
+        GameCollector collector = contexts.Game.GetGroup()
+	    .With.Speed
+            .With.Position
+            .OnPositionChange();
+```
+
+usage:
+```csharp
+	foreach (e in collector) 
+	{	
+		Print("My position has changed! : {0}", e.Position.Value);
+	}
+	collector.Clear();
+```
+
 
 ### Accessing component values
 example 1:
@@ -65,6 +94,7 @@ example 2:
 - GameObject linking (jump from the entity to the view game object and vice versa)
 - Lists, custom types, enums, Unity Objects are supported
 - Natural auto-complete workflow for adding new components, Foldouts, Create/Destroy buttons  
+- Doesn't affect realease builds performance. (And can be disabled / enabled manually in the settings)
 
 ## Generation
 
@@ -73,9 +103,8 @@ example 2:
 </p>
 
 - Generation works without reflection, so you can generate <b> even if your project doesn't compile at all </b> 
-- The generator is a standalone application, decoupled from Unity. So you don't need to leave your IDE
-- One key press to generate everything in milliseconds
-- You can edit the generation by changing the snippets. Soon it will be possible to add custom snippets, and write your own generation
+- Doesn't requere any manual actions from user to trigger generation. Just write the code and see how the new API appears. (Optional)
+- Customizable generation snippets. 
 
 ## Reactive components
 
