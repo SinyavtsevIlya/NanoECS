@@ -2,6 +2,8 @@
     <img src="https://i.imgur.com/M5RdOCm.png" alt="NanoECS">
 </p>
 
+[![Discord](https://img.shields.io/discord/565885959598768148.svg)](https://discord.gg/u7zrtq)
+
 # NanoECS - C#/Unity entity-component-system framework    
 
 ## Features
@@ -170,7 +172,9 @@ I like Entitas so much, but I found it's really tricky to write "Replace" and fi
 
 - It's a very early version of framework. So bear with me :)
 - Performance is tested in the mobile project (middle tier) with a lot of AI, render stuff etc. and it shows ~60 fps. I'm going to optimize it further, but it's good enough for most purposes.
-- If you find a bug, let me know: discord IL#6472, sinyavtsevilya@gmail.com
+- If you find a bug, let me know: 
+	* <b>discord</b> [![Discord](https://img.shields.io/discord/565885959598768148.svg)](https://discord.gg/u7zrtq) 
+	* <b>gmail</b> sinyavtsevilya@gmail.com
 
 [Wiki-link]: https://github.com/SinyavtsevIlya/NanoECS/wiki
 [Entitas-link]: https://github.com/sschmid/Entitas-CSharp/blob/master/README.md "Entitas"
