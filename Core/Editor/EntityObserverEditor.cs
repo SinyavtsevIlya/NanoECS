@@ -106,14 +106,11 @@ public class EntityObserverEditor : Editor
         foreach (var componentObserver in componentObservers)
         {
             var component = componentObserver.Component;
-
-            //DrawUILine(back, 4);
-            GUILayout.Space(5);
-
             var type = component.GetType();
-
             var name = type.Name;
             if (!filteredTypes.Contains(name)) continue;
+            GUILayout.Space(5);
+
             name = name.Replace("Component", "");
             
             GUILayout.BeginHorizontal(NanoEditorHelper.backStyle(component.GetHashCode()));
