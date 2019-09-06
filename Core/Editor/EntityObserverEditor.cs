@@ -6,13 +6,17 @@ using UnityEditor;
 using System.Reflection;
 using System.Linq;
 using System;
+using UnityEditor.IMGUI.Controls;
 
+[CanEditMultipleObjects]
 [CustomEditor(typeof(EntityObserver))]
 public class EntityObserverEditor : Editor
 {
     const int MaxFieldToStringLength = 128;
 
-
+    SearchField filterComponentsField;
+    string filterComponentString;
+    SearchField addComponentsField;
 
     Entity entity
     {
@@ -33,7 +37,9 @@ public class EntityObserverEditor : Editor
 
     private void OnEnable()
     {
-
+        filterComponentsField = new SearchField();
+        filterComponentsField.SetFocus();
+        addComponentsField = new SearchField();
         observer.DisplayDropDown = false;
     }
 
@@ -60,22 +66,58 @@ public class EntityObserverEditor : Editor
         EditorGUILayout.Space();
 
 
+
+
 #if UNITY_EDITOR && NANOECS_DEBUG
 
+
         var componentObservers = new List<ComponentObserver>(entity.ComponentObservers);
+
+        var rawTypes = observer.ComponentsLookup.Keys;
+
+        var usedTypes = rawTypes
+            .Where(type => HasTypes(type, componentObservers))
+            .ToArray();
+
+        var unusedTypes = rawTypes
+            .Where(type => !HasTypes(type, componentObservers))
+            .ToArray();
+
+
+        filterComponentString = filterComponentsField.OnGUI(EditorGUILayout.GetControlRect(), filterComponentString);
+
+        var filter = filterComponentString == null ? null : filterComponentString.Replace(' ', ',').Split(new char[] { ',', ' ', '.', ';' }).Where(x => x != null).Where(x => x != "");
+
+        var filteredTypes = (filterComponentString == null || filterComponentString == "") ? usedTypes : usedTypes
+            .Where(type => 
+            {
+                foreach (var f in filter)
+                {
+                    var lowerType = type.ToLower();
+                    var lowerF = f.ToLower();
+                    if (lowerType.Contains(lowerF))
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }).ToArray();
 
         foreach (var componentObserver in componentObservers)
         {
             var component = componentObserver.Component;
 
-            //DrawUILine(backColor, 4);
+            //DrawUILine(back, 4);
             GUILayout.Space(5);
 
             var type = component.GetType();
 
-            GUILayout.BeginHorizontal(NanoEditorHelper.backStyle(component.GetHashCode()));
+            var name = type.Name;
+            if (!filteredTypes.Contains(name)) continue;
+            name = name.Replace("Component", "");
             
-            var name = type.Name.Replace("Component", "");
+            GUILayout.BeginHorizontal(NanoEditorHelper.backStyle(component.GetHashCode()));
+
 
             var fields = type.GetFields(
              BindingFlags.NonPublic |
@@ -152,6 +194,11 @@ public class EntityObserverEditor : Editor
                     var newValue = EditorGUILayout.Vector2IntField(field.Name, (Vector2Int)fieldValue);
                     SetValue(component, fields, field, newValue);
                 }
+                else if (fieldType == typeof(Color))
+                {
+                    var newValue = EditorGUILayout.ColorField(field.Name, (Color)fieldValue);
+                    SetValue(component, fields, field, newValue);
+                }
                 else if (fieldType.IsEnum)
                 {
                     var newValue = (Enum)EditorGUILayout.EnumPopup(field.Name, (Enum)fieldValue);
@@ -195,7 +242,7 @@ public class EntityObserverEditor : Editor
                 GUILayout.EndHorizontal();
 
             }
-            
+
         }
 
         GUILayout.Space(25);
@@ -205,18 +252,17 @@ public class EntityObserverEditor : Editor
         {
             if (GUILayout.Button(new GUIContent("Add Component"), GUILayout.Height(20)))
             {
+                addComponentsField.SetFocus();
                 observer.DisplayDropDown = true;
             }
         }
 
         if (observer.DisplayDropDown)
         {
-            var types = observer.ComponentsLookup.Keys
-            .Where(type => !componentObservers.Select(o => o.Component.GetType().ToString()).ToList().Contains(type))
-            .ToArray();
+
 
             var r = EditorGUILayout.GetControlRect(); r.height = 20;
-            observer.CurrentComponentName = EditorExtend.TextFieldAutoComplete(r, observer.CurrentComponentName, types, maxShownCount: 10, levenshteinDistance: 0.5f);
+            observer.CurrentComponentName = EditorExtend.TextFieldAutoComplete(addComponentsField, r, observer.CurrentComponentName, unusedTypes, (string value) => value.Replace("Component", ""), maxShownCount: 10, levenshteinDistance: 0.5f);
         }
 
         if (observer.ComponentsLookup.ContainsKey(observer.CurrentComponentName))
@@ -227,7 +273,7 @@ public class EntityObserverEditor : Editor
 
         Event e = Event.current;
         if (e.type == EventType.Ignore ||
-            (e.type == EventType.MouseDown ))
+            (e.type == EventType.MouseDown))
         {
             observer.DisplayDropDown = false;
         }
@@ -238,6 +284,12 @@ public class EntityObserverEditor : Editor
             EditorUtility.SetDirty(target);
         }
 #endif
+    }
+
+    private static bool HasTypes(string type, List<ComponentObserver> componentObservers)
+    {
+        return componentObservers
+            .Select(o => o.Component.GetType().ToString()).ToList().Contains(type);
     }
 
     private static GUIStyle ComponentLabelStyle(bool verticalOffset = true)

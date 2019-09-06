@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
-
+using UnityEditor.IMGUI.Controls;
 public sealed class EditorExtend
 {
     #region Text AutoComplete
@@ -23,16 +23,16 @@ public sealed class EditorExtend
     /// - recommend 0.4f ~ 0.7f
     /// </param>
     /// <returns>output string.</returns>
-    public static string TextFieldAutoComplete(Rect position, string input, string[] source, int maxShownCount = 5, float levenshteinDistance = 0.5f)
+    public static string TextFieldAutoComplete(SearchField searchField, Rect position, string input, string[] source, System.Func<string, string> display, int maxShownCount = 5, float levenshteinDistance = 0.5f)
     {
         if (input == null) return string.Empty;
 
         tag = m_AutoCompleteField + GUIUtility.GetControlID(FocusType.Passive);
         int uiDepth = GUI.depth;
         GUI.SetNextControlName(tag);
-        string rst = EditorGUI.TextField(position, input);
+        string rst = searchField.OnGUI(position, input);
         
-        if (input.Length > 0 && GUI.GetNameOfFocusedControl() == tag)
+        if (input.Length > 0 && searchField.HasFocus())
         {
             if (m_AutoCompleteLastInput != input || // input changed
                 m_EditorFocusAutoComplete != tag) // another field.
@@ -121,7 +121,7 @@ public sealed class EditorExtend
                 {
                     var style = new GUIStyle() { alignment = TextAnchor.MiddleCenter };
                     style.normal.background = TextureTools.MakeTex((int)line.width, (int)line.height, new Color(.82f, .82f, .82f));
-                    if (GUI.Button(line, m_CacheCheckList[i], style))//, EditorStyles.toolbarDropDown))
+                    if (GUI.Button(line, display(m_CacheCheckList[i]), style))//, EditorStyles.toolbarDropDown))
                     {
                         rst = m_CacheCheckList[i];
                         GUI.changed = true;
@@ -137,10 +137,10 @@ public sealed class EditorExtend
         return rst;
     }
 
-    public static string TextFieldAutoComplete(string input, string[] source, int maxShownCount = 5, float levenshteinDistance = 0.5f)
+    public static string TextFieldAutoComplete(SearchField searchField, string input, string[] source, System.Func<string, string> display, int maxShownCount = 5, float levenshteinDistance = 0.5f)
     {
         Rect rect = EditorGUILayout.GetControlRect();
-        return TextFieldAutoComplete(rect, input, source, maxShownCount, levenshteinDistance);
+        return TextFieldAutoComplete(searchField, rect, input, source, display, maxShownCount, levenshteinDistance);
     }
     /// <summary>Computes the Levenshtein Edit Distance between two enumerables.</summary>
     /// <param name="lhs">The first enumerable.</param>
