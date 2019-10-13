@@ -138,6 +138,17 @@ public class Systems : Iinitializable, IExecutable, ILateExecute, IFixedExecutab
         }
     }
 
+    public void FixedExecute()
+    {
+        for (int i = 0; i < fixedExecutes.Count; i++)
+        {
+            Profiler.BeginSample(fixedExecutes[i].ToString());
+            fixedExecutes[i].FixedExecute();
+            context.HandleDalayedOperations();
+            Profiler.EndSample();
+        }
+    }
+
     public void Stop()
     {
         for (int i = 0; i < stops.Count; i++)

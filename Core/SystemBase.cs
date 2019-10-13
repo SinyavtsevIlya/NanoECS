@@ -19,7 +19,7 @@ public interface IExecutable : ISystem
 
 public interface IFixedExecutable : ISystem
 {
-    void Execute();
+    void FixedExecute();
 }
 
 public interface IPause : ISystem
