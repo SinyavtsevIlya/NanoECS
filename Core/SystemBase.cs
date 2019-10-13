@@ -17,6 +17,11 @@ public interface IExecutable : ISystem
     void Execute();
 }
 
+public interface IFixedExecutable : ISystem
+{
+    void Execute();
+}
+
 public interface IPause : ISystem
 {
     void Pause(bool pauseState);

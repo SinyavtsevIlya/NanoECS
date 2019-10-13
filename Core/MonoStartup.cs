@@ -18,7 +18,7 @@ public abstract class MonoStartup : MonoBehaviour
     public abstract Systems Setup();
 
 }
-public class Systems : Iinitializable, IExecutable, ILateExecute, IStop, IPause
+public class Systems : Iinitializable, IExecutable, ILateExecute, IFixedExecutable, IStop, IPause
 {
     IContext context;
 
@@ -29,6 +29,7 @@ public class Systems : Iinitializable, IExecutable, ILateExecute, IStop, IPause
     public List<IPause> pauses = new List<IPause>();
     public List<IStop> stops = new List<IStop>();
     public List<ILateExecute> lateExecutes = new List<ILateExecute>();
+    public List<IFixedExecutable> fixedExecutes = new List<IFixedExecutable>();
 
     public Systems(IContext context)
     {
@@ -40,8 +41,6 @@ public class Systems : Iinitializable, IExecutable, ILateExecute, IStop, IPause
         var system = new T();
         return Add(system);
     }
-
-
 
     public Systems Add(ISystem system)
     {
@@ -61,10 +60,13 @@ public class Systems : Iinitializable, IExecutable, ILateExecute, IStop, IPause
         {
             stops.Add(system as IStop);
         }
-
         if (system is ILateExecute)
         {
             lateExecutes.Add(system as ILateExecute);
+        }
+        if (system is IFixedExecutable)
+        {
+            fixedExecutes.Add(system as IFixedExecutable);
         }
 
         Values.Add(system);
@@ -93,6 +95,11 @@ public class Systems : Iinitializable, IExecutable, ILateExecute, IStop, IPause
         if (system is ILateExecute)
         {
             lateExecutes.Remove(system as ILateExecute);
+        }
+
+        if (system is IFixedExecutable)
+        {
+            fixedExecutes.Remove(system as IFixedExecutable);
         }
 
         Values.Remove(system);
