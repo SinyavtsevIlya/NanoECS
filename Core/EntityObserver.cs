@@ -11,7 +11,7 @@ public class EntityObserver : MonoBehaviour
     public string CurrentComponentName = string.Empty;
     public bool DisplayDropDown;
     public Dictionary<string, int> ComponentsLookup;
-
+    
     public void Initialize(Entity entity, System.Action<Entity> onEntityDestroy, Dictionary<string, int> componentsLookup)
     {
         Entity = entity;
