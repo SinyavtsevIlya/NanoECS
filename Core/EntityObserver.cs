@@ -17,6 +17,7 @@ public class EntityObserver : MonoBehaviour
         Entity = entity;
         OnEntityDestroy = onEntityDestroy;
         ComponentsLookup = componentsLookup;
+        entity.DebugEntityObserver = this;
     }
 }
 

@@ -17,7 +17,7 @@ public class EntityObserverEditor : Editor
     SearchField filterComponentsField;
     string filterComponentString;
     SearchField addComponentsField;
-
+    EntityObserver observer;
     Entity entity
     {
         get
@@ -26,20 +26,12 @@ public class EntityObserverEditor : Editor
         }
     }
 
-    EntityObserver observer
-    {
-        get
-        {
-            return target as EntityObserver;
-        }
-    }
-
-
     private void OnEnable()
     {
         filterComponentsField = new SearchField();
         filterComponentsField.SetFocus();
         addComponentsField = new SearchField();
+        observer = target as EntityObserver;
         observer.DisplayDropDown = false;
     }
 
@@ -257,25 +249,13 @@ public class EntityObserverEditor : Editor
             var newValue = EditorGUILayout.ObjectField(field.Name, (UnityEngine.Object)fieldValue, fieldType, true);
             SetValue(component, fields, field, newValue);
         }
-        else if (fieldType.IsSubclassOf(typeof(Entity)) &&
-fieldValue != null)
+        else if (fieldType.IsSubclassOf(typeof(Entity)) && fieldValue != null)
         {
             var p = observer.transform.parent;
 
+            var entity = fieldValue as Entity;
 
-            var id = (fieldValue as Entity).ID;
-
-            GameObject go = null;
-
-            if (EntityLinkingLookup.HasEntityLink[id])
-            {
-                go = EntityLinkingLookup.EntityLinks[id];
-            }
-            else
-            {
-                go = p.Find("Entity_" + id).gameObject;
-            }
-            var newValue = EditorGUILayout.ObjectField(field.Name, go, fieldType, true);
+            var newValue = EditorGUILayout.ObjectField(field.Name, entity.DebugEntityObserver.gameObject, fieldType, true);
             //SetValue(component, fields, field, newValue);
         }
         else if (fieldType.GetInterfaces().Contains(typeof(IEnumerable)))
@@ -295,18 +275,8 @@ fieldValue != null)
                 {
                     var p = observer.transform.parent;
 
-                    var id = (item as Entity).ID;
-                    GameObject go = null;
-
-                    if (EntityLinkingLookup.HasEntityLink[id])
-                    {
-                        go = EntityLinkingLookup.EntityLinks[id];
-                    }
-                    else
-                    {
-                        go = p.Find("Entity_" + id).gameObject;
-                    }
-                    var newValue = EditorGUILayout.ObjectField("Entity_" + id, go, fieldType, true);
+                    var entity = item as Entity;
+                    var newValue = EditorGUILayout.ObjectField("Entity_" + entity.ID, entity.DebugEntityObserver.gameObject, fieldType, true);
                 } else
                 {
                     EditorGUILayout.SelectableLabel(item.ToString(), (GUILayout.MaxHeight(EditorGUIUtility.singleLineHeight)));

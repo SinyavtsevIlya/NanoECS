@@ -29,6 +29,7 @@ public partial class Entity
 #if UNITY_EDITOR && NANOECS_DEBUG
     public List<ComponentObserver> ComponentObservers = new List<ComponentObserver>();
     public Dictionary<string, int> componentsLookup = new Dictionary<string, int>();
+    public EntityObserver DebugEntityObserver;
 #endif
 
     Storage[] storages;
