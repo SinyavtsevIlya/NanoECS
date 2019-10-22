@@ -112,6 +112,8 @@ public class EntityObserverEditor : Editor
              BindingFlags.NonPublic |
              BindingFlags.Instance).ToList();
 
+            bool hasToRemove = false;
+
             if (fields.Count > 0)
             {
                 GUILayout.Space(15);
@@ -123,15 +125,19 @@ public class EntityObserverEditor : Editor
             }
             if (GUILayout.Button("✕", GUILayout.Width(19), GUILayout.Height(19)))
             {
-                entity.RemoveComponentOfIndex(observer.ComponentsLookup[component.GetType().ToString()]);
+                hasToRemove = true;
             }
 
             GUILayout.EndHorizontal();
+
+            if (hasToRemove) entity.RemoveComponentOfIndex(observer.ComponentsLookup[component.GetType().ToString()]);
 
             if (!componentObserver.IsFoldout) continue;
 
             foreach (var field in fields)
             {
+                GUILayout.BeginHorizontal(NanoEditorHelper.backStyle(component.GetHashCode()));
+
                 DrawField(component, fields, field);
 
                 GUILayout.EndHorizontal();
@@ -191,8 +197,6 @@ public class EntityObserverEditor : Editor
         {
             strVal = strVal.Substring(0, MaxFieldToStringLength);
         }
-
-        GUILayout.BeginHorizontal(NanoEditorHelper.backStyle(component.GetHashCode()));
 
         //EditorGUILayout.LabelField(field.Name, GUILayout.MaxWidth(EditorGUIUtility.labelWidth - 16));
 
