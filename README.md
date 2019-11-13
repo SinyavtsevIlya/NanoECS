@@ -188,12 +188,13 @@ You dont need to leave your IDE, just keep writing your code.
 
 A few tips:
 
-- yes, you dont need to write "public" access modifier. It's faster.
+- yes, you dont need to write "public" access modifier. It's just a "blueprint" for a real component.
 - use camelCase for fields (real property will be PascalCased)
 - Fieldless components (e.g. `class Movable { }`) looks this way in the result: 
 ```entity.IsMovable = true```
 - you can use namespaces
-- you can use different `contexts` by adding a corresponding attribute(s). If you don't specify any context at all, the first one from `NanoECS settings` will be selected.
+- you can use different `contexts` by adding a corresponding attribute(s). If you don't specify any context at all, the first one from `NanoECS settings` will be chosen.
+
 
 
 ## Still in progress
