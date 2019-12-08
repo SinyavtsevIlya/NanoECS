@@ -91,7 +91,7 @@ example 2:
 ## Visual Debugging
 
 <p align="left">
-    <img src="https://i.imgur.com/BIlFenW.png?1" alt="entity editor" height="462">
+    <img src="https://i.gyazo.com/04ff2e81521c2c1abdc721e8f06d4508.gif" alt="entity editor" height="462">
     <img src="https://i.imgur.com/OLi4mXl.png" alt="entity editor" height="462">
 </p>
 
