@@ -1,4 +1,4 @@
-﻿#if UNITY_EDITOR && NANOECS_DEBUG
+﻿ла #if UNITY_EDITOR && NANOECS_DEBUG
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -200,70 +200,68 @@ public class EntityObserverEditor : Editor
 
         //EditorGUILayout.LabelField(field.Name, GUILayout.MaxWidth(EditorGUIUtility.labelWidth - 16));
 
+        object newValue = null;
+        var maySetValue = true;
+        
+        EditorGUI.BeginChangeCheck();
+
         if (fieldType == typeof(bool))
         {
-            var newValue = EditorGUILayout.Toggle(field.Name, (bool)fieldValue);
-            SetValue(component, fields, field, newValue);
+            newValue = EditorGUILayout.Toggle(field.Name, (bool)fieldValue);
         }
         else if (fieldType == typeof(int))
         {
-            var newValue = EditorGUILayout.IntField(field.Name, (int)fieldValue);
-            SetValue(component, fields, field, newValue);
+            newValue = EditorGUILayout.IntField(field.Name, (int)fieldValue);
         }
         else if (fieldType == typeof(float))
         {
-            var newValue = EditorGUILayout.FloatField(field.Name, (float)fieldValue);
-            SetValue(component, fields, field, newValue);
-
+            newValue = EditorGUILayout.FloatField(field.Name, (float)fieldValue);
         }
         else if (fieldType == typeof(string))
         {
 
-            var newValue = EditorGUILayout.DelayedTextField(field.Name, (string)fieldValue);
-            SetValue(component, fields, field, newValue);
+            newValue = EditorGUILayout.DelayedTextField(field.Name, (string)fieldValue);
         }
         else if (fieldType == typeof(Vector3))
         {
-            var newValue = EditorGUILayout.Vector3Field(field.Name, (Vector3)fieldValue);
-            SetValue(component, fields, field, newValue);
+            newValue = EditorGUILayout.Vector3Field(field.Name, (Vector3)fieldValue);
         }
 
         else if (fieldType == typeof(Vector2))
         {
-            var newValue = EditorGUILayout.Vector2Field(field.Name, (Vector2)fieldValue);
-            SetValue(component, fields, field, newValue);
+            newValue = EditorGUILayout.Vector2Field(field.Name, (Vector2)fieldValue);
         }
         else if (fieldType == typeof(Vector2Int))
         {
-            var newValue = EditorGUILayout.Vector2IntField(field.Name, (Vector2Int)fieldValue);
-            SetValue(component, fields, field, newValue);
+            newValue = EditorGUILayout.Vector2IntField(field.Name, (Vector2Int)fieldValue);
         }
         else if (fieldType == typeof(Color))
         {
-            var newValue = EditorGUILayout.ColorField(field.Name, (Color)fieldValue);
-            SetValue(component, fields, field, newValue);
+            newValue = EditorGUILayout.ColorField(field.Name, (Color)fieldValue);
         }
         else if (fieldType.IsEnum)
         {
-            var newValue = (Enum)EditorGUILayout.EnumPopup(field.Name, (Enum)fieldValue);
-            SetValue(component, fields, field, newValue);
+            newValue = (Enum)EditorGUILayout.EnumPopup(field.Name, (Enum)fieldValue);
         }
         else if (fieldType == typeof(UnityEngine.Object) || fieldType.IsSubclassOf(typeof(UnityEngine.Object)) || (fieldType.IsInterface && fieldValue is MonoBehaviour))
         {
-            var newValue = EditorGUILayout.ObjectField(field.Name, (UnityEngine.Object)fieldValue, fieldType, true);
-            SetValue(component, fields, field, newValue);
+            newValue = EditorGUILayout.ObjectField(field.Name, (UnityEngine.Object)fieldValue, fieldType, true);
         }
         else if (fieldType.IsSubclassOf(typeof(Entity)) && fieldValue != null)
         {
             var p = observer.transform.parent;
 
             var entity = fieldValue as Entity;
-
-            var newValue = EditorGUILayout.ObjectField(field.Name, entity.DebugEntityObserver.gameObject, fieldType, true);
-            //SetValue(component, fields, field, newValue);
+            if (entity.DebugEntityObserver != null) 
+            {
+                newValue = EditorGUILayout.ObjectField(field.Name, entity.DebugEntityObserver.gameObject, fieldType, true);
+                maySetValue = false;   
+            }
         }
         else if (fieldType.GetInterfaces().Contains(typeof(IEnumerable)))
         {
+
+            maySetValue = false;
             int itemsCount = 0;
             float minHeight = EditorGUIUtility.singleLineHeight;
 
@@ -280,7 +278,7 @@ public class EntityObserverEditor : Editor
                     var p = observer.transform.parent;
 
                     var entity = item as Entity;
-                    var newValue = EditorGUILayout.ObjectField("Entity_" + entity.ID, entity.DebugEntityObserver.gameObject, fieldType, true);
+                    newValue = EditorGUILayout.ObjectField("Entity_" + entity.ID, entity.DebugEntityObserver.gameObject, fieldType, true);
                 } else
                 {
                     EditorGUILayout.SelectableLabel(item.ToString(), (GUILayout.MaxHeight(EditorGUIUtility.singleLineHeight)));
@@ -293,8 +291,15 @@ public class EntityObserverEditor : Editor
         }
         else
         {
-
             EditorGUILayout.SelectableLabel(strVal, GUILayout.MaxHeight(EditorGUIUtility.singleLineHeight));
+        }
+
+        if (EditorGUI.EndChangeCheck()) 
+        {
+            if (maySetValue) 
+            {
+                SetValue(component, fields, field, newValue);
+            }
         }
     }
 
