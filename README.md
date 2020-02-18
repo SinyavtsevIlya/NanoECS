@@ -2,7 +2,10 @@
     <img src="https://i.imgur.com/M5RdOCm.png" alt="NanoECS">
 </p>
 
-[![Discord](https://img.shields.io/discord/565885959598768148.svg)](https://discord.gg/u7zrtq)
+<!---<p align="center">
+    <img src="https://discordapp.com/assets/f8389ca1a741a115313bede9ac02e2c0.svg" alt="NanoECS" width="40" height="40">
+Discord IL#6472
+</p>--->
 
 # NanoECS - C#/Unity entity-component-system framework    
 
@@ -88,7 +91,7 @@ example 2:
 ## Visual Debugging
 
 <p align="left">
-    <img src="https://i.imgur.com/BIlFenW.png?1" alt="entity editor" height="462">
+    <img src="https://i.gyazo.com/04ff2e81521c2c1abdc721e8f06d4508.gif" alt="entity editor" height="462">
     <img src="https://i.imgur.com/OLi4mXl.png" alt="entity editor" height="462">
 </p>
 
@@ -108,51 +111,6 @@ example 2:
 - Doesn't requere any manual actions from user to trigger generation. Just write the code and see how the new API appears. (Optional)
 - Customizable generation snippets. 
 
-## Reactive components
-
-Here's how it works - you only create a template (or blueprint) of a component that looks like this:
-
-```csharp
-class Score
-{
-    int value;
-}
-```
-
-The generator parses this class, and creates a completely new component, with reactive properties instead of fields:
-
-```csharp
-public partial class ScoreComponent : ComponentEcs 
-{
-	int value;
-	
-	public System.Action<int, int>OnValueChange;
-
-	public int Value 
-	{
-		get {  return value; }
-		set 
-		{
-			if (this.value == value) return;
-			
-			var cached = this.value;
-			this.value = value;
-			if (_InternalOnValueChange != null) 
-			{	
-				_InternalOnValueChange(0);
-			}
-			
-			if (OnValueChange != null) 
-			{
-				OnValueChange(cached, value);
-			}
-		}
-	}
-}
-```
-
-When changing the ```value``` property, related entity is added to all ```.OnScoreChange``` collectors.
-
 ## Inspiration
 
 The framework is inspired a lot by such projects as [Entitas][Entitas-link], [Actors][Actors-link], [LeoECS][LeoECS-link].
@@ -168,12 +126,39 @@ I like Entitas so much, but I found it's really tricky to write "Replace" and fi
 - Add ```"com.nanory.nanoecs": "https://github.com/SinyavtsevIlya/NanoECS.git",``` next to ```"dependencies": {```
 - Go to *Packages -> NanoECS -> Install* and import ```ProjectStructure.unitypackage```
 
+## How to use generator?
+- Go to *Packages -> NanoECS -> Generator* and run NanoEcsGenerator
+- Insure that you have a folder named Components somewhere inside your Assets folder
+- Create new component there, for example:
+
+```csharp
+class Score
+{
+    int value;
+}
+```
+
+Generator will automatically detect changes and create API fow you.
+You dont need to leave your IDE, just keep writing your code.
+
+A few tips:
+
+- yes, you dont need to write "public" access modifier. It's just a "blueprint" for a real component.
+- use camelCase for fields (real property will be PascalCased)
+- Fieldless components (e.g. `class Movable { }`) looks this way in the result: 
+```entity.IsMovable = true```
+- you can use namespaces
+- you can use different `contexts` by adding a corresponding attribute(s). If you don't specify any context at all, the first one from `NanoECS settings` will be chosen.
+
+
+
 ## Still in progress
 
 - It's a very early version of framework. So bear with me :)
 - Performance is tested in the mobile project (middle tier) with a lot of AI, render stuff etc. and it shows ~60 fps. I'm going to optimize it further, but it's good enough for most purposes.
 - If you find a bug, let me know: 
-	* <b>discord</b> [![Discord](https://img.shields.io/discord/565885959598768148.svg)](https://discord.gg/u7zrtq) 
+	<!--* <b>discord</b> [![Discord](https://img.shields.io/discord/565885959598768148.svg)](https://discord.gg/u7zrtq) -->
+	* <b>Discord</b>  https://discordapp.com/channels/@me/IL#6472/
 	* <b>gmail</b> sinyavtsevilya@gmail.com
 
 [Wiki-link]: https://github.com/SinyavtsevIlya/NanoECS/wiki
