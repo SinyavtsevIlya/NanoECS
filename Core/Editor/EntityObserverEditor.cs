@@ -1,4 +1,4 @@
-﻿ла #if UNITY_EDITOR && NANOECS_DEBUG
+﻿#if UNITY_EDITOR && NANOECS_DEBUG
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
