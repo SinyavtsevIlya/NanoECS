@@ -44,7 +44,7 @@ public struct DelayedOperation
 }
 
 [Serializable]
-public partial class Context<T> : IContext where T : Entity, IDisposable, new()
+public partial class Context<T> : IDisposable, IContext where T : Entity, new()
 {
     T[] _entities;
     public int entitiesCount;
