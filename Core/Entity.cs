@@ -7,7 +7,8 @@ using System.Linq;
 [System.Serializable]
 public partial class Entity
 {
-    public int ID { get; set; }
+    public int ID;
+    public int Generation;
 
     public bool IsReserved;
 
@@ -50,6 +51,7 @@ public partial class Entity
 
     public void InternalReset()
     {
+        Generation++;
     }
 
     public T Get<T>(int componentIndex) where T : ComponentEcs, new()
