@@ -44,7 +44,7 @@ public struct DelayedOperation
 }
 
 [Serializable]
-public partial class Context<T> : IContext where T : Entity, new()
+public partial class Context<T> : IContext where T : Entity, new(), IDisposable
 {
     T[] _entities;
     public int entitiesCount;
@@ -84,6 +84,14 @@ public partial class Context<T> : IContext where T : Entity, new()
         _observer = new ContextObserver<T>();
         _observer.Initialize(this, _componentsLookup);
 #endif
+    }
+
+    public void Dispose()
+    {
+        foreach (var entity in _entities)
+        {
+            Destroy(entity);
+        }
     }
 
     protected Group<T> CreateGroupInternal(Group<T> group)
