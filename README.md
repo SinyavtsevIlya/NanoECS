@@ -16,14 +16,29 @@ Discord IL#6472
 - Visual Debugging (you can create/change contexts, entities and components inside the editor (Optional))
 - Unique components (singleton-like accessing components via contexts) 
 
+### Showcase
+
+The projects below made with Unity and NanoECS:
+
+<p align="center">
+    <a href="http://www.youtube.com/watch?v=fHCvZpfxc1I">
+        <img src="http://img.youtube.com/vi/fHCvZpfxc1I/0.jpg" alt="Save The Earth" height="165"></a>
+    <a href="http://www.youtube.com/watch?v=ZAdR9D2l9MI">
+        <img src="http://img.youtube.com/vi/ZAdR9D2l9MI/0.jpg" alt="Hyper Race 3D" height="165"></a>
+    <a href="http://www.youtube.com/watch?v=ZGNpU__BdQk">
+        <img src="http://img.youtube.com/vi/ZGNpU__BdQk/0.jpg" alt="Knife Away" height="165"></a>
+    <a href="http://www.youtube.com/watch?v=IsTCmLSTZBU">
+        <img src="http://img.youtube.com/vi/IsTCmLSTZBU/0.jpg" alt="Num.io" height="165"></a>
+
+</p>
+
 ## First look
 
 ### Entity creation
 ```csharp
-        var player = contexts.Game.CreateEntity()	
-            .AddPlayerView(view)
-            .AddCollider(collider)
-            .AddDefeatsCounter(0)
+        var player = contexts.Core.CreateEntity()	
+            .AddPosition(Vector3.zero)
+            .AddHealth(100)
             .AddSkin("Butterfly");
 ```
 
@@ -31,7 +46,8 @@ Discord IL#6472
 
 creation:
 ```csharp
-        GameGroup group = contexts.Game.GetGroup()
+        // Get entities with "position" and "view" components and without "movable" component
+        CoreGroup group = contexts.Core.GetGroup()
             .With.Position
             .With.View
             .Without.Movable;
@@ -39,6 +55,7 @@ creation:
 
 usage:
 ```csharp
+        // handle filtered entities
 	foreach (e in group) 
 	{	
 		Print(e.Position.Value);
@@ -51,7 +68,8 @@ usage:
 
 creation:
 ```csharp
-        GameCollector collector = contexts.Game.GetGroup()
+	// Get all entities with "speed" and "position" *only* when the position value is changed
+        CoreCollector collector = contexts.Core.GetGroup()
 	    .With.Speed
             .With.Position
             .OnPositionChange();
@@ -59,10 +77,12 @@ creation:
 
 usage:
 ```csharp
+	// handle these entities
 	foreach (e in collector) 
 	{	
 		Print("My position has changed! : {0}", e.Position.Value);
 	}
+	// and clear the collector when done
 	collector.Clear();
 ```
 
