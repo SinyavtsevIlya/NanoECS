@@ -36,6 +36,7 @@ The projects below made with Unity and NanoECS:
 
 ### Entity creation
 ```csharp
+	// Create a new entity
         var player = contexts.Core.CreateEntity()	
             .AddPosition(Vector3.zero)
             .AddHealth(100)
