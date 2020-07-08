@@ -3,85 +3,87 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-public static class Directives
+namespace NanoEcs
 {
-    public const string Debug = "NANOECS_DEBUG";
-    public const string Reactivity = "NANOECS_REACTIVE";
-}
-
-public static class UnityMenuStructure
-{
-    public const string RootFolder = "NanoECS/";
-    public const string SettingsItem = RootFolder + "Settings";
-}
-
-[CreateAssetMenu(fileName = SettingsFileName, order = 51)]
-public class NanoEcsSettings : ScriptableObject
-{
-    public const string SettingsFileName = "NanoECS Settings";
-    public const string AssetRelativePath = "Assets/Settings/" + SettingsFileName;
-
-    public bool VisualDebugEnabled
+    public static class Directives
     {
-        get
-        {
-            return visualDebugEnabled;
-        }
-        set
-        {
-            visualDebugEnabled = value;
-
-            if (visualDebugEnabled)
-            {
-                DefineTool.AddDefine(Directives.Debug);
-            }
-            else
-            {
-                DefineTool.RemoveDefine(Directives.Debug);
-            }
-        }
+        public const string Debug = "NANOECS_DEBUG";
+        public const string Reactivity = "NANOECS_REACTIVE";
     }
 
-    public bool ReactivityEnabled
+    public static class UnityMenuStructure
     {
-        get
-        {
-            return reactivityEnabled;
-        }
-
-        set
-        {
-            reactivityEnabled = value;
-
-            if (reactivityEnabled)
-            {
-                DefineTool.AddDefine(Directives.Reactivity);
-            }
-            else
-            {
-                DefineTool.RemoveDefine(Directives.Reactivity);
-            }
-        }
+        public const string RootFolder = "NanoECS/";
+        public const string SettingsItem = RootFolder + "Settings";
     }
 
-    public bool reactivityEnabled;
-    public bool visualDebugEnabled;
+    [CreateAssetMenu(fileName = SettingsFileName, order = 51)]
+    public class NanoEcsSettings : ScriptableObject
+    {
+        public const string SettingsFileName = "NanoECS Settings";
+        public const string AssetRelativePath = "Assets/Settings/" + SettingsFileName;
 
-    public List<ContextSettings> Contexts;
+        public bool VisualDebugEnabled
+        {
+            get
+            {
+                return visualDebugEnabled;
+            }
+            set
+            {
+                visualDebugEnabled = value;
 
-    public string GeneratedFolderPath;
-    public string SourceFolderPath;
+                if (visualDebugEnabled)
+                {
+                    DefineTool.AddDefine(Directives.Debug);
+                }
+                else
+                {
+                    DefineTool.RemoveDefine(Directives.Debug);
+                }
+            }
+        }
 
-    public bool TriggerGenerationOnSourceChange;
+        public bool ReactivityEnabled
+        {
+            get
+            {
+                return reactivityEnabled;
+            }
+
+            set
+            {
+                reactivityEnabled = value;
+
+                if (reactivityEnabled)
+                {
+                    DefineTool.AddDefine(Directives.Reactivity);
+                }
+                else
+                {
+                    DefineTool.RemoveDefine(Directives.Reactivity);
+                }
+            }
+        }
+
+        public bool reactivityEnabled;
+        public bool visualDebugEnabled;
+
+        public List<ContextSettings> Contexts;
+
+        public string GeneratedFolderPath;
+        public string SourceFolderPath;
+
+        public bool TriggerGenerationOnSourceChange;
+    }
+
+    [System.Serializable]
+    public class ContextSettings
+    {
+        public string Name;
+        public int MinEntitiesPoolSize;
+    }
+
 }
-
-[System.Serializable]
-public class ContextSettings
-{
-    public string Name;
-    public int MinEntitiesPoolSize;
-}
-
 
 #endif

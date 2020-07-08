@@ -2,17 +2,20 @@
 using UnityEngine;
 using UnityEditor;
 
-public class SettingsPreview
+namespace NanoEcs
 {
-    [UnityEditor.MenuItem(UnityMenuStructure.SettingsItem)]
-    public static void DebugSettingns()
+    public class SettingsPreview
     {
-        selectFile();
-    }
+        [UnityEditor.MenuItem(UnityMenuStructure.SettingsItem)]
+        public static void DebugSettingns()
+        {
+            selectFile();
+        }
 
-    static void selectFile()
-    {
-        Selection.activeObject = AssetDatabase.LoadAssetAtPath(NanoEcsSettings.AssetRelativePath + ".asset", typeof(Object));
+        static void selectFile()
+        {
+            Selection.activeObject = AssetDatabase.LoadAssetAtPath(NanoEcsSettings.AssetRelativePath + ".asset", typeof(Object));
+        }
     }
 }
 #endif

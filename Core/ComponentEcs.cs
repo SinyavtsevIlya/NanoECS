@@ -1,11 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-[System.Serializable]
-public class ComponentEcs
+﻿namespace NanoEcs
 {
-    public System.Action<ushort> _InternalOnValueChange;
+	[System.Serializable]
+	public class ComponentEcs
+	{
+		public System.Action<ushort> _InternalOnValueChange;
+	}
 }
-
-

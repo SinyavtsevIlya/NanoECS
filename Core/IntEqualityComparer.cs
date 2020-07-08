@@ -1,14 +1,17 @@
 ﻿using System.Collections.Generic;
 
-public class IntEqualityComparer : IEqualityComparer<int>
+namespace NanoEcs
 {
-    public bool Equals(int x, int y)
+    public class IntEqualityComparer : IEqualityComparer<int>
     {
-        return x == y;
-    }
+        public bool Equals(int x, int y)
+        {
+            return x == y;
+        }
 
-    public int GetHashCode(int obj)
-    {
-        return obj;
+        public int GetHashCode(int obj)
+        {
+            return obj;
+        }
     }
 }

@@ -2,40 +2,43 @@
 using UnityEngine;
 using UnityEditor;
 
-[CustomEditor(typeof(ContextObserverBehaviour))]
-public class ContextObserverBehaviourEditor : Editor
+namespace NanoEcs
 {
-    ContextObserverBehaviour handler
+    [CustomEditor(typeof(ContextObserverBehaviour))]
+    public class ContextObserverBehaviourEditor : Editor
     {
-        get
+        ContextObserverBehaviour handler
         {
-            return (target as ContextObserverBehaviour);
-        }
-    }
-
-    public override void OnInspectorGUI()
-    {
-        GUILayout.Space(20);
-
-        GUILayout.BeginVertical(NanoEditorHelper.backStyle());
-
-        GUILayout.Space(5);
-
-        GUILayout.Label(handler.ContextName + " Context", new GUIStyle() { fontStyle = FontStyle.Bold, alignment = TextAnchor.MiddleCenter });
-
-        GUILayout.Space(20);
-
-        if (GUILayout.Button("Create Entity"))
-        {
-            handler.CreateEntity();
+            get
+            {
+                return (target as ContextObserverBehaviour);
+            }
         }
 
-        GUILayout.Space(5);
+        public override void OnInspectorGUI()
+        {
+            GUILayout.Space(20);
 
-        GUILayout.EndVertical();
+            GUILayout.BeginVertical(NanoEditorHelper.backStyle());
 
-        GUILayout.Space(20);
+            GUILayout.Space(5);
 
+            GUILayout.Label(handler.ContextName + " Context", new GUIStyle() { fontStyle = FontStyle.Bold, alignment = TextAnchor.MiddleCenter });
+
+            GUILayout.Space(20);
+
+            if (GUILayout.Button("Create Entity"))
+            {
+                handler.CreateEntity();
+            }
+
+            GUILayout.Space(5);
+
+            GUILayout.EndVertical();
+
+            GUILayout.Space(20);
+
+        }
     }
-} 
+}
 #endif

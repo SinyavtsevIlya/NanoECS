@@ -1,21 +1,24 @@
 using UnityEngine;
 
-public class ContextObserverBehaviour : MonoBehaviour
+namespace NanoEcs
 {
-    System.Action OnCreateButtonPress;
-    public string ContextName;
-
-    public void Initialize(System.Action onCreateButtonPress, string contextName)
+    public class ContextObserverBehaviour : MonoBehaviour
     {
-        OnCreateButtonPress = onCreateButtonPress;
-        ContextName = contextName;
-    }
+        System.Action OnCreateButtonPress;
+        public string ContextName;
 
-    public void CreateEntity()
-    {
-        if (OnCreateButtonPress != null)
+        public void Initialize(System.Action onCreateButtonPress, string contextName)
         {
-            OnCreateButtonPress.Invoke();
+            OnCreateButtonPress = onCreateButtonPress;
+            ContextName = contextName;
+        }
+
+        public void CreateEntity()
+        {
+            if (OnCreateButtonPress != null)
+            {
+                OnCreateButtonPress.Invoke();
+            }
         }
     }
 }

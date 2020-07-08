@@ -3,165 +3,167 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Profiling;
 
-public abstract class MonoStartup : MonoBehaviour
+namespace NanoEcs
 {
-
-    protected Systems systems;
-
-    public void Initialize()
+    public abstract class MonoStartup : MonoBehaviour
     {
-        systems = Setup();
+        protected Systems systems;
 
-        // no initialization requared for now
+        public void Initialize()
+        {
+            systems = Setup();
+
+            // no initialization requared for now
+        }
+
+        public abstract Systems Setup();
+
     }
-
-    public abstract Systems Setup();
-
-}
-public class Systems : Iinitializable, IExecutable, ILateExecute, IFixedExecutable, IStop, IPause
-{
-    IContext context;
-
-    public List<ISystem> Values = new List<ISystem>();
-
-    public List<Iinitializable> initializables = new List<Iinitializable>();
-    public List<IExecutable> executables = new List<IExecutable>();
-    public List<IPause> pauses = new List<IPause>();
-    public List<IStop> stops = new List<IStop>();
-    public List<ILateExecute> lateExecutes = new List<ILateExecute>();
-    public List<IFixedExecutable> fixedExecutes = new List<IFixedExecutable>();
-
-    public Systems(IContext context)
+    public class Systems : Iinitializable, IExecutable, ILateExecute, IFixedExecutable, IStop, IPause
     {
-        this.context = context;
-    }
+        IContext context;
 
-    public Systems Add<T>() where T : ISystem, new()
-    {
-        var system = new T();
-        return Add(system);
-    }
+        public List<ISystem> Values = new List<ISystem>();
 
-    public Systems Add(ISystem system)
-    {
-        if (system is Iinitializable)
+        public List<Iinitializable> initializables = new List<Iinitializable>();
+        public List<IExecutable> executables = new List<IExecutable>();
+        public List<IPause> pauses = new List<IPause>();
+        public List<IStop> stops = new List<IStop>();
+        public List<ILateExecute> lateExecutes = new List<ILateExecute>();
+        public List<IFixedExecutable> fixedExecutes = new List<IFixedExecutable>();
+
+        public Systems(IContext context)
         {
-            initializables.Add(system as Iinitializable);
-        }
-        if (system is IExecutable)
-        {
-            executables.Add(system as IExecutable);
-        }
-        if (system is IPause)
-        {
-            pauses.Add(system as IPause);
-        }
-        if (system is IStop)
-        {
-            stops.Add(system as IStop);
-        }
-        if (system is ILateExecute)
-        {
-            lateExecutes.Add(system as ILateExecute);
-        }
-        if (system is IFixedExecutable)
-        {
-            fixedExecutes.Add(system as IFixedExecutable);
+            this.context = context;
         }
 
-        Values.Add(system);
-        return this;
-    }
-
-    public Systems Remove(ISystem system)
-    {
-        if (system is Iinitializable)
+        public Systems Add<T>() where T : ISystem, new()
         {
-            initializables.Remove(system as Iinitializable);
-        }
-        if (system is IExecutable)
-        {
-            executables.Remove(system as IExecutable);
-        }
-        if (system is IPause)
-        {
-            pauses.Remove(system as IPause);
-        }
-        if (system is IStop)
-        {
-            stops.Remove(system as IStop);
+            var system = new T();
+            return Add(system);
         }
 
-        if (system is ILateExecute)
+        public Systems Add(ISystem system)
         {
-            lateExecutes.Remove(system as ILateExecute);
+            if (system is Iinitializable)
+            {
+                initializables.Add(system as Iinitializable);
+            }
+            if (system is IExecutable)
+            {
+                executables.Add(system as IExecutable);
+            }
+            if (system is IPause)
+            {
+                pauses.Add(system as IPause);
+            }
+            if (system is IStop)
+            {
+                stops.Add(system as IStop);
+            }
+            if (system is ILateExecute)
+            {
+                lateExecutes.Add(system as ILateExecute);
+            }
+            if (system is IFixedExecutable)
+            {
+                fixedExecutes.Add(system as IFixedExecutable);
+            }
+
+            Values.Add(system);
+            return this;
         }
 
-        if (system is IFixedExecutable)
+        public Systems Remove(ISystem system)
         {
-            fixedExecutes.Remove(system as IFixedExecutable);
+            if (system is Iinitializable)
+            {
+                initializables.Remove(system as Iinitializable);
+            }
+            if (system is IExecutable)
+            {
+                executables.Remove(system as IExecutable);
+            }
+            if (system is IPause)
+            {
+                pauses.Remove(system as IPause);
+            }
+            if (system is IStop)
+            {
+                stops.Remove(system as IStop);
+            }
+
+            if (system is ILateExecute)
+            {
+                lateExecutes.Remove(system as ILateExecute);
+            }
+
+            if (system is IFixedExecutable)
+            {
+                fixedExecutes.Remove(system as IFixedExecutable);
+            }
+
+            Values.Remove(system);
+            return this;
         }
 
-        Values.Remove(system);
-        return this;
-    }
 
-
-    public void Initialize()
-    {
-        for (int i = 0; i < initializables.Count; i++)
+        public void Initialize()
         {
-            initializables[i].Initialize();
-            context.HandleDalayedOperations();
+            for (int i = 0; i < initializables.Count; i++)
+            {
+                initializables[i].Initialize();
+                context.HandleDalayedOperations();
+            }
         }
-    }
 
-    public void Execute()
-    {
-        for (int i = 0; i < executables.Count; i++)
+        public void Execute()
         {
-            Profiler.BeginSample(executables[i].ToString());
-            executables[i].Execute();
-            context.HandleDalayedOperations();
-            Profiler.EndSample();
+            for (int i = 0; i < executables.Count; i++)
+            {
+                Profiler.BeginSample(executables[i].ToString());
+                executables[i].Execute();
+                context.HandleDalayedOperations();
+                Profiler.EndSample();
+            }
         }
-    }
 
-    public void LateExecute()
-    {
-        for (int i = 0; i < lateExecutes.Count; i++)
+        public void LateExecute()
         {
-            Profiler.BeginSample(lateExecutes[i].ToString());
-            lateExecutes[i].LateExecute();
-            context.HandleDalayedOperations();
-            Profiler.EndSample();
+            for (int i = 0; i < lateExecutes.Count; i++)
+            {
+                Profiler.BeginSample(lateExecutes[i].ToString());
+                lateExecutes[i].LateExecute();
+                context.HandleDalayedOperations();
+                Profiler.EndSample();
+            }
         }
-    }
 
-    public void FixedExecute()
-    {
-        for (int i = 0; i < fixedExecutes.Count; i++)
+        public void FixedExecute()
         {
-            Profiler.BeginSample(fixedExecutes[i].ToString());
-            fixedExecutes[i].FixedExecute();
-            context.HandleDalayedOperations();
-            Profiler.EndSample();
+            for (int i = 0; i < fixedExecutes.Count; i++)
+            {
+                Profiler.BeginSample(fixedExecutes[i].ToString());
+                fixedExecutes[i].FixedExecute();
+                context.HandleDalayedOperations();
+                Profiler.EndSample();
+            }
         }
-    }
 
-    public void Stop()
-    {
-        for (int i = 0; i < stops.Count; i++)
+        public void Stop()
         {
-            stops[i].Stop();
+            for (int i = 0; i < stops.Count; i++)
+            {
+                stops[i].Stop();
+            }
         }
-    }
 
-    public void Pause(bool state)
-    {
-        for (int i = 0; i < pauses.Count; i++)
+        public void Pause(bool state)
         {
-            pauses[i].Pause(state);
+            for (int i = 0; i < pauses.Count; i++)
+            {
+                pauses[i].Pause(state);
+            }
         }
     }
 }
