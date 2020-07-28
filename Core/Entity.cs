@@ -38,7 +38,7 @@ namespace NanoEcs
 
         Storage[] storages;
 
-        public void InternalInitialize(
+        internal void InternalInitialize(
             int id,
             Storage[] storages,
             Action<int, int, int> onComponentValueChange,
@@ -52,7 +52,7 @@ namespace NanoEcs
             OnComponentValueChange = onComponentValueChange;
         }
 
-        public void InternalReset()
+        internal void InternalReset()
         {
             Generation++;
         }

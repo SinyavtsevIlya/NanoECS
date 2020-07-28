@@ -146,17 +146,6 @@ namespace NanoEcs
             }
         }
 
-        public TEntity[] GetEntities()
-        {
-            if (existingEntities == null)
-            {
-                existingEntities = new TEntity[Entities.Count];
-                Entities.CopyTo(existingEntities);
-            }
-
-            return existingEntities;
-        }
-
         public bool Contains(TEntity entity)
         {
             return Entities.Contains(entity);
@@ -167,7 +156,6 @@ namespace NanoEcs
             var mayAdd = Entities.Add(entity);
             if (mayAdd)
             {
-                existingEntities = null;
                 if (onAddCreated)
                     onAdd.Add(entity);
             }
@@ -181,8 +169,6 @@ namespace NanoEcs
 
         public bool Remove(TEntity entity)
         {
-            existingEntities = null;
-
             if (onAddCreated)
                 onAdd.Remove(entity);
 

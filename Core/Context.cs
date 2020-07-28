@@ -212,17 +212,17 @@ namespace NanoEcs
             return _entities.Take(entitiesCount).Where(e => !e.IsReserved).ToArray();
         }
 
-        public void OnComponentAdd(int id)
+        internal void OnComponentAdd(int id)
         {
             AddDelayedOperation(DelayedOperationType.Add, id);
         }
 
-        public void OnComponentRemove(int id)
+        internal void OnComponentRemove(int id)
         {
             AddDelayedOperation(DelayedOperationType.Remove, id);
         }
 
-        void RefreshGroups(int id)
+        internal void RefreshGroups(int id)
         {
             var entity = _entities[id];
 
