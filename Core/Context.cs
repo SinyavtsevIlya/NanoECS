@@ -88,7 +88,8 @@ namespace NanoEcs
 
         public void Dispose()
         {
-            foreach (var entity in _entities)
+            var destroyPool = new List<T>(CommonGroup);
+            foreach (var entity in destroyPool)
             {
                 Destroy(entity);
             }

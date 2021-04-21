@@ -79,13 +79,16 @@ namespace NanoEcs
             }
         }
 
-        public void OnEntityRemoved(Entity entity)
+		public void OnEntityRemoved(Entity entity)
         {
             if (_entityObserverByID.ContainsKey(entity.ID))
             {
                 var observer = _entityObserverByID[entity.ID];
-                _entityObserverByID.Remove(entity.ID);
-                GameObject.Destroy(observer.gameObject);
+                if (observer != null)
+                {
+                    _entityObserverByID.Remove(entity.ID);
+                    Object.Destroy(observer.gameObject);
+                }
             }
 
         }
