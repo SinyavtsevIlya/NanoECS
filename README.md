@@ -185,7 +185,7 @@ The framework is inspired a lot by such projects as [Entitas][Entitas-link], [Ac
 
 But I found that Entitas has some design problems to me:
 - need of writing `Replace()` methods every time you want to change a component value and make sure reactive system "know" about it.
-- `Filter` validation along with Matcher is redundant. User is forced to right both of them to make sure components are still there.
+- `Filter` validation along with Matcher is redundant. User is forced to write both of them to make sure components are still there.
 - `Matcher` declaration has a lot of boilerplate.
 
 The goal of this project was to make API as much fluent as possible, and keep performance as well.
@@ -204,14 +204,14 @@ The goal of this project was to make API as much fluent as possible, and keep pe
 
  Before making a decision, pay attention to a few points:
 - if you want super performance, just take DOTS.
-- support and bug fixes
+- support and bug fixes are active
 - new features are not planned
 
 # Feedback
-- If you find a bug, have some suggestions or just want to discuss, let me know: 
-	<!--* <b>discord</b> [![Discord](https://img.shields.io/discord/565885959598768148.svg)](https://discord.gg/u7zrtq) -->
-	* <b>Discord</b>  https://discordapp.com/channels/@me/IL#6472/
-	* <b>gmail</b> sinyavtsevilya@gmail.com
+If you find a bug, have some suggestions or just want to discuss, let me know: 
+<!--* <b>discord</b> [![Discord](https://img.shields.io/discord/565885959598768148.svg)](https://discord.gg/u7zrtq) -->
+* <b>Discord</b>  https://discordapp.com/channels/@me/IL#6472/
+* <b>gmail</b> sinyavtsevilya@gmail.com
 
 [Wiki-link]: https://github.com/SinyavtsevIlya/NanoECS/wiki
 [Entitas-link]: https://github.com/sschmid/Entitas-CSharp/blob/master/README.md "Entitas"
