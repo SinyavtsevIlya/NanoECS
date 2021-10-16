@@ -9,7 +9,7 @@ Discord IL#6472
 
 # NanoECS - C#/Unity entity-component-system framework    
 
-## Features
+# Features
 
 - Handy and easy-to-read API
 - Reactive components (changing component values triggers collectors, giving you the ability to react to changes in ordered ecs manner)
@@ -17,7 +17,7 @@ Discord IL#6472
 - Seamless code gen (code generates on background in a standalone app, no manual actions required)
 - Unique components (singleton-like accessing components via contexts) 
 
-### Showcase
+# Showcase
 
 The projects below made with NanoECS and Unity:
 
@@ -54,7 +54,7 @@ var player = contexts.Core.CreateEntity()
     .AddSkin("Butterfly");
 ```
 
-### Group
+## Group
 
 Get entities with "position" and "view" components and without "movable" component:
 
@@ -78,7 +78,7 @@ foreach (e in group)
 }
 ```
 
-### Collector
+## Collector
 
 Get all entities with "Speed" and "Position" **only** when the position value is changed:
 
@@ -99,7 +99,7 @@ foreach (e in collector)
 collector.Clear();
 ```
 
-### Accessing component values
+## Accessing component values
 
 example 1:
 
@@ -123,7 +123,7 @@ foreach (var player in defeatedPlayers)
 }
 ```
 
-## Visual Debugging
+# Visual Debugging
 - Reactive editing support (modifiyng component values)
 
 <p align="left">
@@ -139,7 +139,7 @@ foreach (var player in defeatedPlayers)
 - Lists, custom types, enums, Unity Objects are supported
 - Doesn't affect realease builds performance. (And can be disabled / enabled manually in the settings)
 
-## Code Generation
+# Code Generation
 
 <p align="left">
     <img src="https://github.com/SinyavtsevIlya/ShowCaseAssets/blob/main/NanoEcs_Console_p.jpg" alt="entity editor">
@@ -179,24 +179,36 @@ A few tips:
 
 If you for some reasons want to edit NanoEcs generator, the sources are available [here][generator-link].
 
-## Inspiration
+# Inspiration and goals
 
 The framework is inspired a lot by such projects as [Entitas][Entitas-link], [Actors][Actors-link], [LeoECS][LeoECS-link].
-I like Entitas so much, but I found it's really tricky to write "Replace" and filter-methods every-time. So the goal was to reduce boiler-plate and keep performance as well.
 
-## Documentation
+But I found that Entitas has some design problems to me:
+- need of writing `Replace()` methods every time you want to change a component value and make sure reactive system "know" about it.
+- `Filter` validation along with Matcher is redundant. User is forced to right both of them to make sure components are still there.
+- `Matcher` declaration has a lot of boilerplate.
+
+The goal of this project was to make API as much fluent as possible, and keep performance as well.
+
+# Documentation
 
 [Wiki][Wiki-link]
 
-## How to install
+# How to install
 - Create a new Unity Project
 - Open the manifest.json file in the Packages folder inside of the Project
 - Add ```"com.nanory.nanoecs": "https://github.com/SinyavtsevIlya/NanoECS.git",``` next to ```"dependencies": {```
 - Go to *Packages -> NanoECS -> Install* and import ```ProjectStructure.unitypackage```
 
-## Still in progress
+# Should I use it?
 
-- If you find a bug, let me know: 
+ Before making a decision, pay attention to a few points:
+- if you want super performance, just take DOTS.
+- support and bug fixes
+- new features are not planned
+
+# Feedback
+- If you find a bug, have some suggestions or just want to discuss, let me know: 
 	<!--* <b>discord</b> [![Discord](https://img.shields.io/discord/565885959598768148.svg)](https://discord.gg/u7zrtq) -->
 	* <b>Discord</b>  https://discordapp.com/channels/@me/IL#6472/
 	* <b>gmail</b> sinyavtsevilya@gmail.com
