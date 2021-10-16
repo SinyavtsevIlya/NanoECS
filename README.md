@@ -11,141 +11,143 @@ Discord IL#6472
 
 ## Features
 
-- Code Generation (provides a really clean API, reducing boiler-plate code)
-- Reactive Components (gives you the ability to change component values in a pure manner, still providing reactive groups-triggering)  
-- Visual Debugging (you can create/change contexts, entities and components inside the editor (Optional))
+- Handy and easy-to-read API
+- Reactive components (changing component values triggers collectors, giving you the ability to react to changes in ordered ecs manner)
+- Visual debugging (you can create/change contexts, entities and components inside the editor (Optional))
+- Seamless code gen (code generates on background in a standalone app, no manual actions required)
 - Unique components (singleton-like accessing components via contexts) 
 
 ### Showcase
 
-The projects below made with Unity and NanoECS:
+The projects below made with NanoECS and Unity:
 
-<p align="center">
-    <a href="http://www.youtube.com/watch?v=fHCvZpfxc1I">
-        <img src="http://img.youtube.com/vi/fHCvZpfxc1I/0.jpg" alt="Save The Earth" height="165"></a>
+Mobile strategy **[Save The Earth][STE]**
+
+<a href="https://play.google.com/store/apps/details?id=com.gamefirst.free.strategy.save.the.earth">
+        <img src="https://github.com/SinyavtsevIlya/ShowCaseAssets/blob/main/STE.jpg" alt="Save The Earth" height="285"></a>
+
+*(clickable)*
+
+Hyper Casual projects:
+
+<p align="left">
     <a href="http://www.youtube.com/watch?v=ZAdR9D2l9MI">
-        <img src="http://img.youtube.com/vi/ZAdR9D2l9MI/0.jpg" alt="Hyper Race 3D" height="165"></a>
+        <img src="https://github.com/SinyavtsevIlya/ShowCaseAssets/blob/main/HyperRace.jpg" alt="Hyper Race 3D" height="365"></a>
     <a href="http://www.youtube.com/watch?v=ZGNpU__BdQk">
-        <img src="http://img.youtube.com/vi/ZGNpU__BdQk/0.jpg" alt="Knife Away" height="165"></a>
+        <img src="https://github.com/SinyavtsevIlya/ShowCaseAssets/blob/main/KnifeAway.jpg" alt="Knife Away" height="365"></a>
     <a href="http://www.youtube.com/watch?v=IsTCmLSTZBU">
-        <img src="http://img.youtube.com/vi/IsTCmLSTZBU/0.jpg" alt="Num.io" height="165"></a>
-
+        <img src="https://github.com/SinyavtsevIlya/ShowCaseAssets/blob/main/Numio.png" alt="Num.io" height="365"></a>
 </p>
 
-## First look
+*(clickable)*
 
-### Entity creation
+# First look
+
+## Entity
+
+Create a new entity:
+
 ```csharp
-	// Create a new entity
-        var player = contexts.Core.CreateEntity()	
-            .AddPosition(Vector3.zero)
-            .AddHealth(100)
-            .AddSkin("Butterfly");
+var player = contexts.Core.CreateEntity()	
+    .AddPosition(Vector3.zero)
+    .AddHealth(100)
+    .AddSkin("Butterfly");
 ```
 
 ### Group
 
-creation:
+Get entities with "position" and "view" components and without "movable" component:
+
 ```csharp
-        // Get entities with "position" and "view" components and without "movable" component
-        CoreGroup group = contexts.Core.GetGroup()
-            .With.Position
-            .With.View
-            .Without.Movable;
+CoreGroup group = contexts.Core.GetGroup()
+    .With.Position
+    .With.View
+    .Without.Movable;
 ```
 
-usage:
+Usage:
+
+Handle filtered entities:
+
 ```csharp
-        // handle filtered entities
-	foreach (e in group) 
-	{	
-		Print(e.Position.Value);
-		Print(e.View.Value);
-		Print(e.View.IsMovable);
-	}
+foreach (e in group) 
+{	
+	Print(e.Position.Value);
+	Print(e.View.Value);
+	Print(e.View.IsMovable);
+}
 ```
 
 ### Collector
 
-creation:
+Get all entities with "Speed" and "Position" **only** when the position value is changed:
+
 ```csharp
-	// Get all entities with "speed" and "position" *only* when the position value is changed
-        CoreCollector collector = contexts.Core.GetGroup()
-	    .With.Speed
-            .With.Position
-            .OnPositionChange();
+CoreCollector collector = contexts.Core.GetGroup()
+    .With.Speed
+    .With.Position
+    .OnPositionChange();
 ```
 
-usage:
-```csharp
-	// handle these entities
-	foreach (e in collector) 
-	{	
-		Print("My position has changed! : {0}", e.Position.Value);
-	}
-	// and clear the collector when done
-	collector.Clear();
-```
+Handle these entities:
 
+```csharp
+foreach (e in collector) 
+{	
+	Print("My position has changed! : {0}", e.Position.Value);
+}
+collector.Clear();
+```
 
 ### Accessing component values
+
 example 1:
+
 ```csharp
-        e.Position.Value += e.Direction.Value.ToVector3() * e.Speed.Value * delta;
+e.Position.Value += e.Direction.Value.ToVector3() * e.Speed.Value * delta;
 ```
 example 2:
-```csharp
-        foreach (var player in defeatedPlayers)
-        {
-            player.IsDestroyed = true;
-            player.DefeatsCounter.Value++;
 
-            if (!player.IsAIDriven)
-            {
-                contexts.Request.CreateEntity()
-                    .AddDelay(0.6f)
-                    .IsGameOverRequest = true;
-            }
-        }
+```csharp
+foreach (var player in defeatedPlayers)
+{
+    player.IsDestroyed = true;
+    player.DefeatsCounter.Value++;
+
+    if (!player.IsAIDriven)
+    {
+	contexts.Request.CreateEntity()
+	    .AddDelay(0.6f)
+	    .IsGameOverRequest = true;
+    }
+}
 ```
 
 ## Visual Debugging
+- Reactive editing support (modifiyng component values)
 
 <p align="left">
-    <img src="https://i.gyazo.com/04ff2e81521c2c1abdc721e8f06d4508.gif" alt="entity editor" height="462">
-    <img src="https://i.imgur.com/OLi4mXl.png" alt="entity editor" height="462">
+    <img src="https://github.com/SinyavtsevIlya/ShowCaseAssets/blob/main/NanoEcs_Editor2.gif" alt="entity editor">
 </p>
 
-- Reactive editing support (modifiyng component values gives the same result as "in code")
+- Natural auto-complete workflow for adding new components, Foldouts, Create/Destroy buttons  
+<p align="left">
+    <img src="https://github.com/SinyavtsevIlya/ShowCaseAssets/blob/main/NanoEcs_Editor.gif" alt="entity editor">
+</p>
+
 - GameObject linking (jump from the entity to the view game object and vice versa)
 - Lists, custom types, enums, Unity Objects are supported
-- Natural auto-complete workflow for adding new components, Foldouts, Create/Destroy buttons  
 - Doesn't affect realease builds performance. (And can be disabled / enabled manually in the settings)
 
-## Generation
+## Code Generation
 
 <p align="left">
-    <img src="https://i.imgur.com/5AZlEjC.png" alt="entity editor">
+    <img src="https://github.com/SinyavtsevIlya/ShowCaseAssets/blob/main/NanoEcs_Console_p.jpg" alt="entity editor">
 </p>
 
 - Generation works without reflection, so you can generate <b> even if your project doesn't compile at all </b> 
 - Doesn't requere any manual actions from user to trigger generation. Just write the code and see how the new API appears. (Optional)
 - Customizable generation snippets. 
-
-## Inspiration
-
-The framework is inspired a lot by such projects as [Entitas][Entitas-link], [Actors][Actors-link], [LeoECS][LeoECS-link].
-I like Entitas so much, but I found it's really tricky to write "Replace" and filter-methods every-time. So the goal was to reduce boiler-plate and keep performance as well.
-
-## Documentation
-
-[Wiki][Wiki-link]
-
-## How to install
-- Create a new Unity Project
-- Open the manifest.json file in the Packages folder inside of the Project
-- Add ```"com.nanory.nanoecs": "https://github.com/SinyavtsevIlya/NanoECS.git",``` next to ```"dependencies": {```
-- Go to *Packages -> NanoECS -> Install* and import ```ProjectStructure.unitypackage```
 
 ## How to use generator?
 - Go to *Packages -> NanoECS -> Generator* and run NanoEcsGenerator
@@ -170,13 +172,30 @@ A few tips:
 ```entity.IsMovable = true```
 - you can use namespaces
 - you can use different `contexts` by adding a corresponding attribute(s). If you don't specify any context at all, the first one from `NanoECS settings` will be chosen.
+- if you prefer performance over convicience, you could disable default reactive behavior for component accessors by untiping the toggle in NanoEcs Settings. (But you still able to selectivly use it by applying [Reactive] attribute above your component.
+- if use want to extend generation behavior, you can change code snippets. 
 
+## NanoEcs Generator sources
 
+If you for some reasons want to edit NanoEcs generator, the sources are available [here][generator-link].
+
+## Inspiration
+
+The framework is inspired a lot by such projects as [Entitas][Entitas-link], [Actors][Actors-link], [LeoECS][LeoECS-link].
+I like Entitas so much, but I found it's really tricky to write "Replace" and filter-methods every-time. So the goal was to reduce boiler-plate and keep performance as well.
+
+## Documentation
+
+[Wiki][Wiki-link]
+
+## How to install
+- Create a new Unity Project
+- Open the manifest.json file in the Packages folder inside of the Project
+- Add ```"com.nanory.nanoecs": "https://github.com/SinyavtsevIlya/NanoECS.git",``` next to ```"dependencies": {```
+- Go to *Packages -> NanoECS -> Install* and import ```ProjectStructure.unitypackage```
 
 ## Still in progress
 
-- It's a very early version of framework. So bear with me :)
-- Performance is tested in the mobile project (middle tier) with a lot of AI, render stuff etc. and it shows ~60 fps. I'm going to optimize it further, but it's good enough for most purposes.
 - If you find a bug, let me know: 
 	<!--* <b>discord</b> [![Discord](https://img.shields.io/discord/565885959598768148.svg)](https://discord.gg/u7zrtq) -->
 	* <b>Discord</b>  https://discordapp.com/channels/@me/IL#6472/
@@ -186,3 +205,5 @@ A few tips:
 [Entitas-link]: https://github.com/sschmid/Entitas-CSharp/blob/master/README.md "Entitas"
 [Actors-link]: https://github.com/dimmpixeye/ecs.unity "Actors"
 [LeoECS-link]: https://github.com/Leopotam/ecs "LeoECS"
+[generator-link]: https://github.com/SinyavtsevIlya/NanoECSGenerator
+[STE]: https://play.google.com/store/apps/details?id=com.gamefirst.free.strategy.save.the.earth
